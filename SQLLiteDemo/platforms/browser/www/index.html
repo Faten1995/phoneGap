@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+        <title>SQL Lite demo</title>
+        <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+        <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+        <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+        
+
+        <script>
+        //global variable
+        var db;
+            
+        window.onload = function()
+        {
+            document.getElementById('btnSave').addEventListener('click',saveData);
+            db = window.openDatabase("employees","1.0","Learning",2000000);
+            // name of database - version - description - size in bytes
+        }
+        
+        function saveData(e)
+        {
+            //transaction is a function
+            db.transaction(saveRecord, onSuccess, onError)
+        }
+            
+        function saveRecord(transaction)
+        {
+            var name = document.getElementById('name').value;
+            var email = document.getElementById('email').value;
+            
+            transaction.executeSql('CREATE TABLE IF NOT EXISTS employeeList(id INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT NOT NULL, Email TEXT NOT NULL)');
+            
+            var sql = "INSERT INTO employeeList (Name,Email) VALUES ('"+name+"', '"+email+"')";
+            
+            console.log(sql);
+            transaction.executeSql(sql);
+            
+            transaction.executeSql("SELECT * FROM employeeList", [], getSuccess, getError);
+
+        }
+            
+        function getSuccess(tx, result)
+        {
+            var rows = result.rows;
+            for(var x=0; x<rows.length; x++)
+                {
+                    var name = result.rows[x].Name;
+                    var email = result.rows[x].Email;
+                    var out = "<li>"+name+"<br/>"+email+"</li>";
+                    document.getElementById('members').innerHTML += out;
+                
+                }
+                    //to format the list view appropriatly
+                    $('#members').listview("refresh");
+
+        }
+        function getError(e)
+        {
+            console.log(e);
+        }            
+        function onSuccess()
+        {
+            console.log("Record Saved");
+        }
+            
+        function onError(error)
+        {
+            console.log(error);
+        }
+        </script>
+    </head>
+    
+    
+    <body>
+      
+        <div data-role="page"> 
+            <div data-role="header">
+                <h1>SQL Lite Demo</h1>
+            </div> <!-- header -->
+            
+            <div data-role="main" class="ui-content">
+              
+                <label for="name">Name</label>
+                <input type="text" id="name" />
+                <label for="email">Email</label>
+                <input type="text" id="email" />
+                <button id="btnSave" type="submit">Save</button>
+                <ul id="members" data-role="listview">
+                    
+                </ul>
+               
+                <div id="employees"></div>               
+            </div> <!-- main -->
+        </div> <!-- page -->
+                
+        <script type="text/javascript" src="cordova.js"></script>
+    </body>
+</html>

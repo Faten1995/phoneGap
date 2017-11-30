@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>jQuery Ajax practice</title>
+        <style>
+        
+        </style>
+        <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+        <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+        <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+        <script src="jquery-3.2.1.js"></script>
+        <script src="question.js"></script>
+        <script src="main.js"></script>
+       
+        <script>
+            if(typeof jQuery!=='undefined'){
+                console.log('jQuery Loaded');
+            }
+            else{
+                console.log('not loaded yet');
+            }
+            
+        
+        </script>
+        
+    </head>
+    <body>
+       
+       <div data-role="page">
+           <div data-role="header">
+               <h1>trying to learn using API's</h1>
+           </div><!-- header -->
+           <div data-role="main">
+               <div id="list">
+                   <button id="gqtq" type="submit" onclick=getQuestions() >Get the Questions</button>
+                   <ul data-role="listview" id="questionsList">
+                       
+                   </ul>
+                   
+               </div> <!-- list -->
+               
+           </div><!-- main -->
+           <div data-role="footer" style="position: fixed">
+               <h2>please work :(</h2>
+           </div><!-- footer -->
+       
+       </div><!-- page -->
+        
+        
+        
+    </body>
+</html>
